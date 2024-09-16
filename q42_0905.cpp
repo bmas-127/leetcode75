@@ -14,14 +14,11 @@ class Solution {
     TreeNode* rightLeastNode;
     TreeNode* rightLeastParent;
     TreeNode** parentLink;
-    int key;
-    int found = 0;
 public:
     TreeNode* deleteNode(TreeNode* root, int key) {
-        TreeNode *dummy_head = new TreeNode(key+1, root, nullptr);
-        this->key = key;
+        TreeNode* dummyHead = new TreeNode(key+1, root, nullptr);
 
-        searchNode(dummy_head);
+        searchNode(dummyHead, key);
 
         if(deleteTreeNode == nullptr){
             return root;
@@ -42,7 +39,7 @@ public:
             rightLeastNode->right = deleteTreeNode->right;
         }
 
-        return dummy_head->left;
+        return dummyHead->left;
     }
 
     void searchRightLeastParent(TreeNode* root){
@@ -54,22 +51,30 @@ public:
             }
         }
     }
-    
-    
-    void searchNode(TreeNode* root){
-        if(root == nullptr || parentLink){
-            return;
-        }else if(root->left != nullptr && root->left->val == key){
-            parent = root;
-            deleteTreeNode = root->left;
-            parentLink = &root->left;
-        }else if(root->right != nullptr && root->right->val == key){
-            parent = root;
-            deleteTreeNode = root->right;
-            parentLink = &root->right;
-        }
 
-        searchNode(root->left);
-        searchNode(root->right);
+    
+    void searchNode(TreeNode* root, int key){
+        parent = root;
+        root = root->left;
+        while(root != nullptr){
+            if(root->val == key){
+                deleteTreeNode = root;
+                if(parent->val > key){
+                    parentLink = &parent->left;
+                }else{
+                    parentLink = &parent->right;
+                }
+                break;
+            }else{
+                parent = root;
+                if(root->val > key){
+                    root = root->right;
+                }else{
+                    root = root->left;
+                }
+            }
+
+        }
     }
+
 };

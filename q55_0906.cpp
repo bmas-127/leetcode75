@@ -1,34 +1,18 @@
 #include <vector>
-
 class Solution {
 public:
-    int compress(std::vector<char>& chars) {
-        if(chars.size() == 0){
-            return 0;
-        }
+    int findPeakElement(std::vector<int>& nums) {
+        bool prevGreater = true;
+        bool nextGreater;
 
-        chars.push_back(0);
-        char prev = chars[0];
-        int cons = 0;
-        int sum = 0;
-
-        for(const auto& c : chars){
-            if(c == prev){
-                ++ cons;
-            }else{
-                sum ++;
-                if(cons != 1){
-                    while(cons > 0){
-                        sum ++;
-                        cons /= 10;
-                    }
-                    cons = 1;
-                }
+        for(int i = 0; i < nums.size() - 1; i ++){
+            nextGreater = nums[i] > nums[i+1];
+            if(prevGreater && nextGreater){
+                return i;
             }
-
-            prev = c;
+            prevGreater = !nextGreater;
         }
-        
-        return sum;
+
+        return nums.size() - 1;
     }
 };
