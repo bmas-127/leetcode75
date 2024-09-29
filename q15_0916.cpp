@@ -8,20 +8,14 @@ public:
         int initMax = 0;
         int windows = 0;
         for(int i = 0; i < s.size() && i < k; i ++){
-            if(s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u'){
-                windows++;
-                s[i] = 'a';
-            }
+            windows += (s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u');
         }   
         
         initMax = windows;
 
         for(int i = k; i < s.size(); i ++){
-            if(s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u'){
-                windows++;
-                s[i] = 'a';
-            }
-            windows -= (s[i-k] == 'a');
+            windows += (s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u');
+            windows -= (s[i-k] == 'a' || s[i-k] == 'e' || s[i-k] == 'i' || s[i-k] == 'o' || s[i-k] == 'u');
             initMax = std::max(initMax, windows);
         }
 
